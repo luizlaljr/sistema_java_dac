@@ -21,4 +21,4 @@ https://sistema-java-dac.herokuapp.com/swagger-ui/
 
 ### :dart: Endereço da api:
 
-https://sistema-java-dac.herokuapp.com/
+https://sistema-java-dac.herokuapp.com/sistema/autores
