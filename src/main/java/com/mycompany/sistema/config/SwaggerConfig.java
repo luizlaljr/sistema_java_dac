@@ -41,7 +41,7 @@ public class SwaggerConfig {
     
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("Simples Api de anuais")
+            .title("Simples Api de Anais de Eventos Científicos")
             .description("Trabalho da disciplina de desenvolvimento de aplicações corporativas")
             .version("1.0.0")       
             .contact(new Contact("Luiz Alberto Junior", "https://github.com/luizlaljr", "luiz_alberto@id.uff.br"))
