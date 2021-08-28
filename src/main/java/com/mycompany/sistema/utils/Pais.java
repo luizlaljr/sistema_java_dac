@@ -5,10 +5,13 @@
  */
 package com.mycompany.sistema.utils;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  *
  * @author luizlaljr
  */
+@ApiModel
 public enum Pais {
     BR, PT, US, FR, UK, ES
 }

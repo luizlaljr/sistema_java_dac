@@ -8,6 +8,8 @@ package com.mycompany.sistema.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mycompany.sistema.utils.Pais;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Optional;
 import javax.persistence.Column;
@@ -24,38 +26,76 @@ import javax.persistence.ManyToOne;
  * @author luizlaljr
  */
 @Entity
+@ApiModel
 public class Autor implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @ApiModelProperty(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ApiModelProperty(
+        value = "Ordem do autor",
+        name = "ordem",
+        example = "1")
     private Integer ordem;
     
+    @ApiModelProperty(
+        value = "Email do autor",
+        name = "email",
+        example = "autor@email.com")
     private String email;
     
+    @ApiModelProperty(
+        value = "Primeiro nome do autor",
+        name = "primeiroNome",
+        example = "Luiz")
     @Column(length = 64)
     private String primeiroNome;
     
+    @ApiModelProperty(
+        value = "Nome do meio do autor",
+        name = "meioNome",
+        example = "Alberto")
     @Column(length = 64)
     private String meioNome;
     
+    @ApiModelProperty(
+        value = "Sobrenome do autor",
+        name = "sobreNome",
+        example = "Junior")
     @Column(length = 64)
     private String sobreNome;
     
+    @ApiModelProperty(
+        value = "Afiliação do autor",
+        name = "afiliacao",
+        example = "SBSI")
     @Column(length = 256)
     private String afiliacao;
     
+    @ApiModelProperty(
+        value = "Afiliação do autor em inglês",
+        name = "afiliacaoIngles",
+        example = "SBSI")
     @Column(length = 256)
     private String afiliacaoIngles;
     
+    @ApiModelProperty(
+        value = "Pais de origem do autor")
     @Column(length = 2)
     @Enumerated(EnumType.STRING)
     private Pais pais;
     
+    @ApiModelProperty(
+        value = "Identificador digital único do autor",
+        name = "orcId",
+        example = "0000-0002-0123-208X")
     private String orcId;
     
+    @ApiModelProperty(hidden = true)
     @JsonBackReference
     @ManyToOne
     private Artigo artigo;

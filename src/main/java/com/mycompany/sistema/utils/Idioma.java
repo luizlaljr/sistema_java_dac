@@ -5,10 +5,13 @@
  */
 package com.mycompany.sistema.utils;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  *
  * @author luizlaljr
  */
+@ApiModel
 public enum Idioma {
     pt, en, es
 }

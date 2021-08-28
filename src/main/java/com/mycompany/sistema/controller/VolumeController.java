@@ -32,7 +32,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author luizlaljr
  */
 @RestController
-@RequestMapping("/sistema/volume")
+@RequestMapping("/sistema/volume/")
 public class VolumeController {
     
     @Autowired
@@ -65,10 +65,11 @@ public class VolumeController {
     @ResponseBody
     public ResponseEntity<Volume> save(@RequestBody Volume volume){
         
+        
         try {
             Volume volumeCreated = volumeService.save(volume);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(volumeCreated.getId().toString()).build().toUri();
-            return ResponseEntity.created(uri).body(null);
+            return ResponseEntity.created(uri).body(volumeCreated);
             
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
@@ -81,7 +82,7 @@ public class VolumeController {
         @ApiResponse(code = 404, message = "O volume não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @GetMapping(path = "/{idVolume}", produces = "application/json")
+    @GetMapping(path = "{idVolume}", produces = "application/json")
     public ResponseEntity<Volume> show(@PathVariable("idVolume") Long idVolume){
         Optional<Volume> volume = volumeService.findById(idVolume);
         if(volume.isPresent()){
@@ -97,7 +98,7 @@ public class VolumeController {
         @ApiResponse(code = 404, message = "O volume não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @PutMapping(path = "/{id}", produces = "application/json")
+    @PutMapping(path = "{id}", produces = "application/json")
     public ResponseEntity<Volume> update(@PathVariable("id") Long id, @RequestBody Volume volumeNovo){
         
         Optional<Volume> volumeAntigo = volumeService.findById(id);
@@ -126,15 +127,16 @@ public class VolumeController {
         @ApiResponse(code = 404, message = "O volume não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @DeleteMapping(path="/{id}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Long id){
+    @DeleteMapping(path="{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long id){
         
         Optional<Volume> volume = volumeService.findById(id);
         
         if(!volume.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(null);
+        volumeService.deleteById(id);
+        return ResponseEntity.ok().body("Volume de id " + id + " removido");
         
     }
 }
