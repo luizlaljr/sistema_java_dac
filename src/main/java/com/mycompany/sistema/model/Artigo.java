@@ -8,6 +8,8 @@ package com.mycompany.sistema.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mycompany.sistema.utils.Idioma;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -26,41 +28,76 @@ import javax.persistence.OneToMany;
  * @author luizlaljr
  */
 @Entity
+@ApiModel
 public class Artigo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @ApiModelProperty(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ApiModelProperty(
+        value = "Ordem do Artigo",
+        name = "ordem",
+        example = "1")
     private Integer ordem;
     
+    @ApiModelProperty(
+        value = "Idioma do artigo")
     @Column(length = 2)
     @Enumerated(EnumType.STRING)
     private Idioma idioma;
     
+    @ApiModelProperty(
+        value = "Título original",
+        name = "tituloOriginal",
+        example = "Escabilidade e Elasticidade")
     @Column(length = 256)
     private String tituloOriginal;
     
+    @ApiModelProperty(
+        value = "Título em inglês",
+        name = "tituloIngles",
+        example = "Scalability and Elasticity")
     @Column(length = 256)
     private String tituloIngles;
     
+    @ApiModelProperty(
+        value = "Resumo original",
+        name = "resumoOriginal",
+        example = "Escabilidade e Elasticidade no processo da disponibilidade da aplicação.")
     @Column(length = 2048)
     private String resumoOriginal;
     
+    @ApiModelProperty(
+        value = "Resumo em inglês",
+        name = "resumoIngles",
+        example = "Scalability and Elasticity in the application availability process.")
     @Column(length = 2048)
     private String resumoIngles;
     
+    @ApiModelProperty(
+        value = "Palavras chaves originais",
+        name = "palavrasChaveOriginais",
+        example = "Escabilidade, Elasticidade, Disponibilidade.")
     @Column(length = 256)
     private String palavrasChaveOriginais;
     
+    @ApiModelProperty(
+        value = "Palavras chaves em inglês",
+        name = "palavrasChaveIngles",
+        example = "Scalability, Elasticity, Availability.")
     @Column(length = 256)
     private String palavrasChaveIngles;
     
+    @ApiModelProperty(hidden = true)
     @JsonBackReference
     @ManyToOne
     private Volume volume;
     
+    @ApiModelProperty(hidden = true)
     @JsonManagedReference
     @OneToMany(mappedBy = "artigo")
     private List<Autor> autores;

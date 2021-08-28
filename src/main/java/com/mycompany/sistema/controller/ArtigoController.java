@@ -77,7 +77,7 @@ public class ArtigoController {
             
             Artigo artigoCreated = artigoService.save(artigo);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(artigoCreated.getId().toString()).build().toUri();
-            return ResponseEntity.created(uri).body(null);
+            return ResponseEntity.created(uri).body(artigoCreated);
             
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
@@ -137,14 +137,15 @@ public class ArtigoController {
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
     @DeleteMapping(path="/{idArtigo}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable("idArtigo") Long id){
+    public ResponseEntity<String> deleteById(@PathVariable("idArtigo") Long id){
         
         Optional<Artigo> artigo = artigoService.findById(id);
         
         if(!artigo.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(null);
+        artigoService.deleteById(id);
+        return ResponseEntity.ok().body("Artigo de id " + id + " removido");
         
     }
 }

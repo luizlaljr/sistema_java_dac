@@ -6,6 +6,8 @@
 package com.mycompany.sistema.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -20,29 +22,57 @@ import javax.persistence.OneToMany;
  * @author luizlaljr
  */
 @Entity
+@ApiModel
 public class Volume implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @ApiModelProperty(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ApiModelProperty(
+        value = "Nome do evento",
+        name = "evento",
+        example = "Simpósio da SBSI")
     @Column(length = 32)
     private String evento;
     
+    @ApiModelProperty(
+        value = "Edição do evento",
+        name = "edicaoEvento",
+        example = "1")
     private Integer edicaoEvento;
     
+    @ApiModelProperty(
+        value = "Cidade do evento",
+        name = "cidadeEvento",
+        example = "Rio de Janeiro")
     @Column(length = 64)
     private String cidadeEvento;
     
+    @ApiModelProperty(
+        value = "Data do evento",
+        name = "dataEvento",
+        example = "01/09/2021")
     private String dataEvento;
     
     @Column(length = 2048)
+    @ApiModelProperty(
+        value = "Descrição do evento em português",
+        name = "descricaoPortugues",
+        example = "Encontro da sociedade brasileira de SI.")
     private String descricaoPortugues;
     
+    @ApiModelProperty(
+        value = "Descrição do evento em inlgês",
+        name = "descricaoIngles",
+        example = "Meeting of the Brazilian Information Systems Society.")
     @Column(length = 2048)
     private String descricaoIngles;
     
+    @ApiModelProperty(hidden = true)
     @JsonManagedReference
     @OneToMany(mappedBy = "volume")
     private List<Artigo> artigos;
