@@ -34,7 +34,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author luizlaljr
  */
 @RestController
-@RequestMapping("/sistema/volume/{idVolume}/artigo")
+@RequestMapping("/sistema/volume/{idVolume}/artigo/")
 public class ArtigoController {
     
     @Autowired
@@ -62,7 +62,7 @@ public class ArtigoController {
     
     @ApiOperation(value = "Salva um artigo")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "O artigo foi salvo"),
+        @ApiResponse(code = 201, message = "O artigo foi salvo"),
         @ApiResponse(code = 422, message = "O artigo não pode ser salvo"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
@@ -90,9 +90,9 @@ public class ArtigoController {
         @ApiResponse(code = 404, message = "O artigo não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @GetMapping(path = "/{idArtigo}", produces = "application/json")
-    public ResponseEntity<Artigo> show(@PathVariable("idArtigo") Long idArtigo){
-        Optional<Artigo> artigo = artigoService.findById(idArtigo);
+    @GetMapping(path = "{id}", produces = "application/json")
+    public ResponseEntity<Artigo> show(@PathVariable("id") Long id){
+        Optional<Artigo> artigo = artigoService.findById(id);
         if(artigo.isPresent()){
             return ResponseEntity.ok(artigo.get());
         }else{
@@ -106,8 +106,8 @@ public class ArtigoController {
         @ApiResponse(code = 404, message = "O artigo não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @PutMapping(path = "/{idArtigo}", produces = "application/json")
-    public ResponseEntity<Artigo> update(@PathVariable("idVolume") Long idVolume, @PathVariable("idArtigo") Long idArtigo, @RequestBody Artigo artigoNovo){
+    @PutMapping(path = "{id}", produces = "application/json")
+    public ResponseEntity<Artigo> update(@PathVariable("id") Long idArtigo, @RequestBody Artigo artigoNovo){
         
         Optional<Artigo> artigoAntigo = artigoService.findById(idArtigo);
         
@@ -136,8 +136,8 @@ public class ArtigoController {
         @ApiResponse(code = 404, message = "Nenhum artigo foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @DeleteMapping(path="/{idArtigo}")
-    public ResponseEntity<String> deleteById(@PathVariable("idArtigo") Long id){
+    @DeleteMapping(path="{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long id){
         
         Optional<Artigo> artigo = artigoService.findById(id);
         

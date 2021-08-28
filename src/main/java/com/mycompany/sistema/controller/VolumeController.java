@@ -57,7 +57,7 @@ public class VolumeController {
     
     @ApiOperation(value = "Salva um volume")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "O volume foi salvo"),
+        @ApiResponse(code = 201, message = "O volume foi salvo"),
         @ApiResponse(code = 422, message = "O volume não pode ser salvo"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
@@ -82,9 +82,9 @@ public class VolumeController {
         @ApiResponse(code = 404, message = "O volume não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @GetMapping(path = "{idVolume}", produces = "application/json")
-    public ResponseEntity<Volume> show(@PathVariable("idVolume") Long idVolume){
-        Optional<Volume> volume = volumeService.findById(idVolume);
+    @GetMapping(path = "{id}", produces = "application/json")
+    public ResponseEntity<Volume> show(@PathVariable("id") Long id){
+        Optional<Volume> volume = volumeService.findById(id);
         if(volume.isPresent()){
             return ResponseEntity.ok(volume.get());
         }else{

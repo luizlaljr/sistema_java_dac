@@ -7,8 +7,10 @@ package com.mycompany.sistema.controller;
 
 import com.mycompany.sistema.model.Artigo;
 import com.mycompany.sistema.model.Autor;
+import com.mycompany.sistema.model.Volume;
 import com.mycompany.sistema.service.ArtigoServiceImpl;
 import com.mycompany.sistema.service.AutorServiceImpl;
+import com.mycompany.sistema.service.VolumeServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -35,13 +37,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author luizlaljr
  */
 @RestController
-@RequestMapping("/sistema/volume/{idVolume}/artigo/{idArtigo}/autor")
+@RequestMapping("/sistema/volume/{idVolume}/artigo/{idArtigo}/autor/")
 public class AutorController {
+    
     @Autowired
-    private AutorServiceImpl autorService;
+    private VolumeServiceImpl volumeService;
     
     @Autowired
     private ArtigoServiceImpl artigoService;
+    
+    @Autowired
+    private AutorServiceImpl autorService;
     
     @ApiOperation(value = "Retorna a lista de autores")
     @ApiResponses(value = {
@@ -52,9 +58,9 @@ public class AutorController {
     @GetMapping(produces="application/json")
     public ResponseEntity<List<Autor>> findAll(){
         
-        List<Autor> autors = autorService.findAll();
+        List<Autor> autores = autorService.findAll();
         
-        if(autors.isEmpty()){
+        if(autores.isEmpty()){
             return ResponseEntity.notFound().build();
         }        
         return ResponseEntity.ok(autorService.findAll());
@@ -62,17 +68,20 @@ public class AutorController {
     
     @ApiOperation(value = "Salva um autor")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "O autor foi salvo"),
+        @ApiResponse(code = 201, message = "O autor foi salvo"),
         @ApiResponse(code = 422, message = "O autor não pode ser salvo"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
     @PostMapping
     @ResponseBody
-    public ResponseEntity<Autor> save(@PathVariable("Id do Volume") Long idVolume, @PathVariable("Id do Artigo") Long idArtigo, @RequestBody Autor autor){
+    public ResponseEntity<Autor> save(@PathVariable("idVolume") Long idVolume, @PathVariable("idArtigo") Long idArtigo, @RequestBody Autor autor){
         
         try {
+            Optional<Volume> volumeUri = volumeService.findById(idVolume);
+            Volume volume = volumeUri.get();            
             Optional<Artigo> artigoUri = artigoService.findById(idArtigo);
             Artigo artigo = artigoUri.get();
+            artigo.setVolume(volume);
             autor.setArtigo(artigo);
             
             Autor autorCreated = autorService.save(autor);
@@ -90,9 +99,9 @@ public class AutorController {
         @ApiResponse(code = 404, message = "O autor não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @GetMapping(path = "/{idAutor}", produces = "application/json")
-    public ResponseEntity<Autor> show(@PathVariable("Id do Volume") Long idVolume, @PathVariable("Id do Artigo") Long idArtigo, @PathVariable("idAutor") Long idAutor){
-        Optional<Autor> autor = autorService.findById(idAutor);
+    @GetMapping(path = "{id}", produces = "application/json")
+    public ResponseEntity<Autor> show(@PathVariable("id") Long id){
+        Optional<Autor> autor = autorService.findById(id);
         if(autor.isPresent()){
             return ResponseEntity.ok(autor.get());
         }else{
@@ -106,8 +115,8 @@ public class AutorController {
         @ApiResponse(code = 404, message = "O autor não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @PutMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<Autor> update(@PathVariable("Id do Volume") Long idVolume, @PathVariable("Id do Artigo") Long idArtigo, @PathVariable("id") Long id, @RequestBody Autor autorNovo){
+    @PutMapping(path = "{id}", produces = "application/json")
+    public ResponseEntity<Autor> update(@PathVariable("id") Long id, @RequestBody Autor autorNovo){
         Optional<Autor> autorAntigo = autorService.findById(id);
         if(autorAntigo.isPresent()){
             Autor autor = autorAntigo.get();
@@ -134,8 +143,8 @@ public class AutorController {
         @ApiResponse(code = 404, message = "O autor não foi encontrado"),
         @ApiResponse(code = 500, message = "Houve algum problema no servidor"),
     })
-    @DeleteMapping(path="/{id}")    
-    public ResponseEntity<String> deleteById(@PathVariable("idVolume") Long idVolume, @PathVariable("idArtigo") Long idArtigo, @PathVariable("id") Long id){
+    @DeleteMapping(path="{id}")    
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long id){
         
         Optional<Autor> autor = autorService.findById(id);
         
