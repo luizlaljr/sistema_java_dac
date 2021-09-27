@@ -32,7 +32,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author luizlaljr
  */
 @RestController
-@RequestMapping("/sistema/volume/")
+@RequestMapping("/sistema/volumes/")
 public class VolumeController {
     
     @Autowired
