@@ -37,7 +37,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author luizlaljr
  */
 @RestController
-@RequestMapping("/sistema/volumes/{idVolume}/artigos/{idArtigo}/autores/")
+@RequestMapping("/sistema/volume/{idVolume}/artigo/{idArtigo}/autor/")
 public class AutorController {
     
     @Autowired
